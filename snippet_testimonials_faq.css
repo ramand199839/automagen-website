@@ -1,0 +1,279 @@
+/* ============================================================
+   TESTIMONIALS & FAQ SECTIONS
+   Design system variables (must be declared on :root in main CSS)
+   --bg-base:          #0a0a0f
+   --bg-surface:       #12121a
+   --accent:           #6c63ff
+   --accent-secondary: #00d4aa
+   --text-primary:     #f0f0f5
+   --text-muted:       #8888a0
+   --border-subtle:    rgba(255,255,255,0.08)
+   --radius-card:      12px
+   Font: Inter
+   ============================================================ */
+
+
+/* ─── Shared helpers ────────────────────────────────────────── */
+
+.section-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+
+/* ─── TESTIMONIALS ──────────────────────────────────────────── */
+
+.testimonials-section {
+  background-color: var(--bg-base);
+  padding: 96px 24px;
+}
+
+.testimonials-section .container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.testimonial-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(108, 99, 255, 0.12);
+  border-color: rgba(108, 99, 255, 0.3);
+}
+
+/* Avatar row */
+.testimonial-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--avatar-from, #6c63ff), var(--avatar-to, #00d4aa));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+
+.testimonial-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.testimonial-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.testimonial-role {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* Stars */
+.stars {
+  font-size: 1rem;
+  color: #fbbf24;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+/* Quote */
+.testimonial-quote {
+  font-size: 0.9375rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+  border: none;
+  flex-grow: 1;
+}
+
+
+/* ─── FAQ ────────────────────────────────────────────────────── */
+
+.faq-section {
+  background-color: var(--bg-surface);
+  padding: 96px 24px;
+}
+
+.faq-section .container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.faq-list {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+/* Question button */
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  background: none;
+  border: none;
+  padding: 22px 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+.faq-question:hover {
+  color: var(--accent);
+}
+
+.faq-question:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Icon — a + that rotates to × */
+.faq-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  font-size: 1.375rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--accent);
+  border: 1px solid rgba(108, 99, 255, 0.35);
+  border-radius: 50%;
+  transition: transform 0.35s ease, background-color 0.25s ease;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+  background-color: rgba(108, 99, 255, 0.15);
+}
+
+/* Answer panel */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding-bottom: 0;
+  transition: max-height 0.35s ease, padding-bottom 0.35s ease;
+}
+
+.faq-answer p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 0 0 4px;
+  padding-bottom: 4px;
+}
+
+.faq-answer p strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Open state is set via inline style in JS (max-height: 500px; padding-bottom: 16px) */
+.faq-item.open .faq-question {
+  color: var(--accent);
+}
+
+
+/* ─── RESPONSIVE ────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonials-section,
+  .faq-section {
+    padding: 64px 20px;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .faq-question {
+    font-size: 0.9375rem;
+    padding: 18px 0;
+  }
+}
