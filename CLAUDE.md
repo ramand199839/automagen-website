@@ -7,14 +7,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 AutomaGen — a solo-founder AI automation agency landing page. Pure static site: no build step, no framework, no dependencies.
 
 Live URL: **https://getautomagen.netlify.app**  
-Netlify site ID: `81f25a69-36d1-4ae9-a861-492688baca8c`
+Netlify site ID: `81f25a69-36d1-4ae9-a861-492688baca8c`  
+GitHub repo: **https://github.com/ramand199839/automagen-website**
 
 ## Deploying
+
+Netlify CLI is installed and linked to the site via `.netlify/state.json`. Deploy with:
 
 ```powershell
 cd C:\Users\raman\AutomaGen
 netlify deploy --dir "." --prod
 ```
+
+The GitHub repo (`ramand199839/automagen-website`) can be connected to Netlify for automatic deploys on push — set up via Netlify dashboard → Site settings → Build & deploy → Link repository.
 
 Renaming the Netlify subdomain (requires correct body wrapper):
 ```powershell
@@ -41,10 +46,11 @@ netlify api updateSite --data '{"site_id":"81f25a69-36d1-4ae9-a861-492688baca8c"
 - `--text-primary: #f0f0f5` / `--text-muted: #8888a0`
 - `--radius-card: 12px` / `--radius-btn: 8px` / `--transition: 0.25s ease`
 
-**Pricing tiers (INR, exclusive of taxes):**
-- Starter — ₹15,000 /project
-- Growth — ₹35,000 /project (featured / Most Popular)
-- Scale — ₹75,000 /month (retainer)
+**Pricing tiers (USD, exclusive of taxes):**
+- Starter — $180 /project
+- Growth — $420 /project (featured / Most Popular)
+- Scale — $900 /month (retainer)
+- Indian clients note: "Contact us for INR pricing." (links to #contact)
 
 **Section order in `index.html`:**
 Hero → Services → Process → Pricing → Founding Client Program → FAQ → Contact
