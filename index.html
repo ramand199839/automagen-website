@@ -3,455 +3,966 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AutomaGen - AI Automation Agency</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>AutomaBuild — AI Automation for Agencies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand: #4F6EF7;
+      --brand-light: #EEF1FE;
+      --brand-dark: #3A56E0;
+      --text-primary: #0A0F1E;
+      --text-secondary: #5A6478;
+      --text-muted: #94A3B8;
+      --bg: #FFFFFF;
+      --bg-soft: #F8FAFC;
+      --bg-card: #FFFFFF;
+      --border: #E8ECF4;
+      --border-strong: #CBD5E1;
+      --shadow-sm: 0 1px 3px rgba(10,15,30,0.06);
+      --shadow-md: 0 4px 16px rgba(10,15,30,0.08), 0 2px 8px rgba(10,15,30,0.04);
+      --shadow-lg: 0 12px 40px rgba(10,15,30,0.1), 0 4px 16px rgba(10,15,30,0.06);
+      --shadow-brand: 0 8px 24px rgba(79,110,247,0.28);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --font-display: 'Sora', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --max-w: 1120px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-soft); }
+    ::-webkit-scrollbar-thumb { background: var(--brand-light); border-radius: 99px; }
+
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .section { padding: 96px 0; }
+    .section-sm { padding: 64px 0; }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-display); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--brand); background: var(--brand-light);
+      padding: 6px 14px; border-radius: 99px; margin-bottom: 20px;
+    }
+    .tag::before { content:''; width:6px; height:6px; background:var(--brand); border-radius:50%; }
+
+    .section-title {
+      font-family: var(--font-display); font-size: clamp(26px, 4vw, 40px);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--text-primary);
+    }
+    .section-sub {
+      font-size: 17px; color: var(--text-secondary); margin-top: 14px;
+      max-width: 520px; line-height: 1.65;
+    }
+    .section-header { margin-bottom: 56px; }
+    .section-header.center { text-align: center; }
+    .section-header.center .section-sub { margin: 14px auto 0; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-size: 15px; font-weight: 600;
+      padding: 14px 28px; border-radius: var(--radius-md);
+      cursor: pointer; transition: all 0.2s ease;
+      text-decoration: none; border: none; outline: none;
+    }
+    .btn-primary { background: var(--brand); color: #fff; box-shadow: var(--shadow-brand); }
+    .btn-primary:hover { background: var(--brand-dark); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(79,110,247,0.36); }
+    .btn-outline { background: transparent; color: var(--text-primary); border: 1.5px solid var(--border-strong); }
+    .btn-outline:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+    .btn-lg { padding: 16px 32px; font-size: 16px; }
+    .btn svg { width: 18px; height: 18px; transition: transform 0.2s; flex-shrink: 0; }
+    .btn:hover svg { transform: translateX(3px); }
+
+    /* NAVBAR */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: var(--shadow-sm); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-size: 20px; font-weight: 700;
+      color: var(--text-primary); text-decoration: none; letter-spacing: -0.02em;
+    }
+    .logo-mark {
+      width: 34px; height: 34px; background: var(--brand); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(79,110,247,0.3);
+    }
+    .logo-mark svg { width: 18px; height: 18px; color: #fff; }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--text-secondary);
+      text-decoration: none; padding: 8px 14px; border-radius: var(--radius-sm);
+      transition: all 0.15s;
+    }
+    .nav-links a:hover { color: var(--text-primary); background: var(--bg-soft); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .nav-cta { padding: 10px 20px; font-size: 14px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; padding: 16px 24px 24px; border-top: 1px solid var(--border); }
+    .mobile-menu a { display: block; font-size: 16px; font-weight: 500; color: var(--text-secondary); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .mobile-menu a:last-of-type { border-bottom: none; }
+    .mobile-menu .btn { width: 100%; justify-content: center; margin-top: 16px; }
+    @media(max-width:768px){.nav-links,.nav-actions{display:none;}.hamburger{display:flex;}.mobile-menu.open{display:block;}}
+
+    /* HERO */
+    .hero { position: relative; padding: 80px 0 72px; background: var(--bg); }
+    canvas#particles { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--brand-light); border: 1px solid rgba(79,110,247,0.2);
+      border-radius: 99px; padding: 6px 16px 6px 8px; margin-bottom: 28px;
+    }
+    .hero-badge .dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    .hero-badge span { font-size: 13px; font-weight: 500; color: var(--brand); font-family: var(--font-display); }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.6;transform:scale(0.85);} }
+    .hero h1 {
+      font-family: var(--font-display); font-size: clamp(40px, 5.5vw, 68px);
+      font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
+      color: var(--text-primary); margin-bottom: 22px;
+    }
+    .hero h1 .accent { color: var(--brand); position: relative; display: inline-block; }
+    .hero h1 .accent::after {
+      content: ''; position: absolute; bottom: 2px; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--brand), rgba(79,110,247,0.25));
+      border-radius: 2px;
+    }
+    .hero-sub { font-size: 17px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 36px; max-width: 500px; }
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+    .guarantee-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 99px;
+      padding: 8px 16px; font-size: 13px; font-weight: 500; color: #166534;
+    }
+    .guarantee-badge svg { width: 15px; height: 15px; color: #16A34A; flex-shrink: 0; }
+    .hero-note { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-top: 12px; }
+    .hero-note svg { width: 14px; height: 14px; color: #4CAF50; flex-shrink: 0; }
+
+    /* HERO VISUAL */
+    .hero-visual { position: relative; }
+    .flow-card-wrapper { position: relative; padding: 24px 0; }
+    .flow-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 28px;
+      box-shadow: var(--shadow-lg); position: relative; overflow: hidden;
+    }
+    .flow-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--brand), #818CF8, #A78BFA);
+    }
+    .flow-title {
+      font-family: var(--font-display); font-size: 12px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .flow-title::before { content: ''; width: 6px; height: 6px; background: #4CAF50; border-radius: 50%; animation: pulse 1.5s infinite; }
+    .flow-nodes { display: flex; flex-direction: column; gap: 0; }
+    .flow-node {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border-radius: var(--radius-md);
+      border: 1px solid var(--border); background: var(--bg-soft);
+      transition: all 0.3s;
+    }
+    .flow-node.active { border-color: var(--brand); background: var(--brand-light); box-shadow: 0 0 0 3px rgba(79,110,247,0.1); }
+    .flow-node-icon {
+      width: 36px; height: 36px; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; flex-shrink: 0;
+    }
+    .flow-node-text { flex: 1; }
+    .flow-node-label { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .flow-node-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .flow-node-status {
+      font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 99px;
+    }
+    .status-done { background: #DCFCE7; color: #166534; }
+    .status-running { background: var(--brand-light); color: var(--brand); }
+    .status-wait { background: var(--bg-soft); color: var(--text-muted); border: 1px solid var(--border); }
+    .flow-arrow {
+      display: flex; align-items: center; justify-content: flex-start;
+      padding: 4px 0 4px 22px; position: relative;
+    }
+    .flow-arrow-line {
+      width: 2px; height: 20px; background: linear-gradient(180deg, var(--brand), rgba(79,110,247,0.2));
+      position: relative; overflow: hidden;
+    }
+    .flow-arrow-dot {
+      position: absolute; width: 6px; height: 6px; background: var(--brand);
+      border-radius: 50%; left: -2px;
+      animation: flowDown 1.5s ease-in-out infinite;
+    }
+    @keyframes flowDown { 0%{top:-6px;opacity:0;}20%{opacity:1;}80%{opacity:1;}100%{top:20px;opacity:0;} }
+    .flow-stats {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 20px;
+    }
+    .flow-stat {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 12px; text-align: center;
+    }
+    .flow-stat .fs-val { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--brand); }
+    .flow-stat .fs-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+    .float-badge {
+      position: absolute; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 10px 14px;
+      box-shadow: var(--shadow-md); font-size: 12px; font-weight: 600;
+      color: var(--text-primary); display: flex; align-items: center; gap: 8px;
+      animation: floatBadge 3s ease-in-out infinite;
+    }
+    .float-badge.fb1 { top: 0px; right: 20px; animation-delay: 0s; }
+    .float-badge.fb2 { bottom: 0px; left: 20px; animation-delay: 1.5s; }
+    @keyframes floatBadge { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
+    .float-badge .fb-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* TOOLS STRIP */
+    .tools-strip { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--border); }
+    .tools-label { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 18px; }
+    .tools-list { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .tool-pill {
+      display: flex; align-items: center; gap: 7px;
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: 99px; padding: 7px 14px;
+      font-size: 13px; font-weight: 600; color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .tool-pill:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+    .tool-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* PROBLEM */
+    .problems { background: var(--bg-soft); }
+    .problems-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .problem-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 32px; transition: all 0.25s;
+    }
+    .problem-card:hover { border-color: rgba(79,110,247,0.3); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .problem-icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 22px; }
+    .problem-card h3 { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
+    .problem-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+
+    /* SERVICES */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; align-items: start; }
+    .pricing-card {
+      background: var(--bg-card); border: 1.5px solid var(--border);
+      border-radius: var(--radius-xl); padding: 36px 32px;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .pricing-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .pricing-card.featured {
+      border-color: var(--brand);
+      background: linear-gradient(160deg, #0A0F1E 0%, #111827 100%);
+    }
+    .pricing-card.featured::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--brand), #818CF8);
+    }
+    .featured-badge { display: inline-block; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 99px; margin-bottom: 20px; }
+    .pricing-tier { font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+    .pricing-card.featured .pricing-tier { color: rgba(255,255,255,0.5); }
+    .pricing-amount { display: flex; align-items: baseline; gap: 4px; margin-bottom: 8px; }
+    .pricing-amount .dollar { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--brand); margin-top: 4px; }
+    .pricing-card.featured .pricing-amount .dollar { color: #818CF8; }
+    .pricing-amount .price { font-family: var(--font-display); font-size: 52px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--text-primary); }
+    .pricing-card.featured .pricing-amount .price { color: #fff; }
+    .pricing-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.5; }
+    .pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.6); }
+    .pricing-delivery { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--brand); background: var(--brand-light); padding: 4px 10px; border-radius: 99px; margin-bottom: 28px; }
+    .pricing-card.featured .pricing-delivery { background: rgba(79,110,247,0.2); color: #818CF8; }
+    .pricing-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
+    .pricing-card.featured .pricing-divider { background: rgba(255,255,255,0.1); }
+    .pricing-features { list-style: none; margin-bottom: 32px; }
+    .pricing-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text-secondary); padding: 7px 0; }
+    .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.75); }
+    .check { width: 18px; height: 18px; border-radius: 50%; background: rgba(79,110,247,0.1); color: var(--brand); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .pricing-card.featured .check { background: rgba(79,110,247,0.25); color: #818CF8; }
+    .check svg { width: 10px; height: 10px; }
+    .pricing-cta { display: block; text-align: center; padding: 14px; border-radius: var(--radius-md); font-family: var(--font-display); font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; width: 100%; }
+    .pricing-cta-outline { background: var(--bg-soft); color: var(--text-primary); border: 1.5px solid var(--border); }
+    .pricing-cta-outline:hover { background: var(--brand-light); color: var(--brand); border-color: var(--brand); }
+    .pricing-cta-filled { background: var(--brand); color: #fff; box-shadow: var(--shadow-brand); }
+    .pricing-cta-filled:hover { background: var(--brand-dark); box-shadow: 0 8px 28px rgba(79,110,247,0.4); }
+
+    /* HOW IT WORKS */
+    .steps { background: var(--bg-soft); }
+    .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; position: relative; }
+    .steps-grid::before { content: ''; position: absolute; top: 32px; left: calc(16.66% + 32px); right: calc(16.66% + 32px); height: 1px; background: linear-gradient(90deg, var(--brand), rgba(79,110,247,0.2), var(--brand)); opacity: 0.3; }
+    .step { padding: 16px 32px; text-align: center; }
+    .step-num { width: 64px; height: 64px; border-radius: 50%; background: var(--bg); border: 2px solid var(--brand); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--brand); box-shadow: 0 0 0 8px var(--brand-light); position: relative; z-index: 1; }
+    .step h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; }
+    .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; max-width: 240px; margin: 0 auto; }
+
+    /* ABOUT */
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px; position: relative; overflow: hidden; }
+    .about-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--brand), #818CF8); }
+    .about-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--brand), #818CF8); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(79,110,247,0.3); }
+    .about-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .about-role { font-size: 13px; color: var(--brand); font-weight: 600; margin-bottom: 20px; }
+    .about-quote { font-size: 15px; color: var(--text-secondary); line-height: 1.7; font-style: italic; border-left: 3px solid var(--brand); padding-left: 16px; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+    .about-stat { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; }
+    .about-stat .stat-val { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--brand); line-height: 1; }
+    .about-stat .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+    .about-text .section-sub { max-width: 100%; }
+    .about-text blockquote { margin-top: 28px; padding: 24px; background: var(--brand-light); border-radius: var(--radius-md); border-left: 4px solid var(--brand); }
+    .about-text blockquote p { font-size: 15px; color: var(--text-primary); line-height: 1.7; font-style: italic; }
+    .about-values { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
+    .about-value { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+    .v-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--brand-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; }
+
+    /* FAQ */
+    .faq { background: var(--bg); }
+    .faq-list { display: flex; flex-direction: column; gap: 0; max-width: 760px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 4px; gap: 16px; text-align: left;
+    }
+    .faq-q span { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--text-primary); }
+    .faq-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-soft); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; }
+    .faq-icon svg { width: 14px; height: 14px; color: var(--brand); transition: transform 0.3s; }
+    .faq-item.open .faq-icon { background: var(--brand-light); border-color: var(--brand); }
+    .faq-item.open .faq-icon svg { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s; }
+    .faq-item.open .faq-a { max-height: 200px; }
+    .faq-a p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; padding: 0 4px 22px; }
+
+    /* CONTACT */
+    .contact { background: var(--bg-soft); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; }
+    .contact-info h2 { font-family: var(--font-display); font-size: 36px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .contact-info h2 span { color: var(--brand); }
+    .contact-info p { font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px; }
+    .contact-promises { display: flex; flex-direction: column; gap: 16px; }
+    .promise { display: flex; align-items: flex-start; gap: 14px; }
+    .promise-icon { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .promise-text strong { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+    .promise-text span { font-size: 13px; color: var(--text-muted); }
+    .contact-email-alt { margin-top: 24px; padding: 16px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; color: var(--text-secondary); }
+    .contact-email-alt a { color: var(--brand); font-weight: 600; text-decoration: none; }
+    .contact-email-alt a:hover { text-decoration: underline; }
+
+    .contact-form-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-md); }
+    .form-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+    .form-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; }
+    .form-group { margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .form-group label span { color: var(--brand); }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-md);
+      background: var(--bg-soft); color: var(--text-primary); font-family: var(--font-body); font-size: 14px; transition: all 0.2s; outline: none; appearance: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--brand); background: var(--bg); box-shadow: 0 0 0 4px rgba(79,110,247,0.1); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit { width: 100%; padding: 16px; background: var(--brand); color: #fff; border: none; border-radius: var(--radius-md); font-family: var(--font-display); font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--shadow-brand); }
+    .form-submit:hover { background: var(--brand-dark); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(79,110,247,0.36); }
+    .form-submit svg { width: 18px; height: 18px; }
+    .form-note { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+
+    /* FOOTER */
+    footer { background: #0A0F1E; color: rgba(255,255,255,0.6); padding: 48px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 18px; font-weight: 700; color: #fff; text-decoration: none; }
+    .footer-logo .logo-mark { width: 30px; height: 30px; background: var(--brand); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .footer-logo .logo-mark svg { width: 16px; height: 16px; color: #fff; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 14px; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: #fff; }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.3); }
+    .footer-email { font-size: 14px; color: var(--brand); font-weight: 500; text-decoration: none; }
+    .footer-email:hover { text-decoration: underline; }
+
+    /* ANIMATIONS */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up-d1 { transition-delay: 0.1s; }
+    .fade-up-d2 { transition-delay: 0.2s; }
+    .fade-up-d3 { transition-delay: 0.3s; }
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { max-width: 480px; margin: 0 auto; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media(max-width:768px){
+      .section { padding: 72px 0; }
+      .problems-grid { grid-template-columns: 1fr; gap: 16px; }
+      .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .steps-grid::before { display: none; }
+      .step { padding: 16px; }
+      .hero h1 { font-size: 40px; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .btn-lg { width: 100%; justify-content: center; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-links { flex-wrap: wrap; gap: 16px; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- NAVIGATION -->
-  <nav class="nav">
-    <div class="container">
-      <a href="#" class="nav-logo">AutomaGen</a>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        AutomaBuild
+      </a>
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#process">Process</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-primary nav-cta">Get Free Audit →</a>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-  </nav>
-
-  <!-- HERO -->
-  <section id="hero" class="hero">
-    <div class="container">
-      <h1 class="hero-title">Automate Everything.<br>Grow Faster.</h1>
-      <p class="hero-subtitle">
-        AutomaGen builds intelligent AI-powered automations that eliminate repetitive work,
-        streamline your operations, and unlock exponential growth for your business.
-      </p>
-      <div class="hero-cta">
-        <a href="#contact" class="btn-primary">Get Started</a>
-        <a href="#process" class="btn-secondary">Learn More</a>
-      </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#services" onclick="toggleMenu()">Services</a>
+      <a href="#how-it-works" onclick="toggleMenu()">How It Works</a>
+      <a href="#about" onclick="toggleMenu()">About</a>
+      <a href="#faq" onclick="toggleMenu()">FAQ</a>
+      <a href="#contact" onclick="toggleMenu()">Contact</a>
+      <a href="#contact" class="btn btn-primary" onclick="toggleMenu()">Get Free Audit →</a>
     </div>
-  </section>
+  </div>
+</nav>
 
-  <hr class="glow-divider" />
-
-  <!-- SERVICES -->
-  <section id="services">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">What We Automate</h2>
-        <p class="section-subtitle">We transform your business operations with intelligent AI automation — eliminating manual work, accelerating growth, and letting your team focus on what matters most.</p>
-      </div>
-      <div class="services-grid">
-
-        <div class="service-card">
-          <div class="service-icon">🔄</div>
-          <h3 class="service-name">Workflow Automation</h3>
-          <p class="service-desc">We map and automate your end-to-end business processes, eliminating bottlenecks and manual handoffs across every department. From approvals to reporting, your operations run faster and error-free — around the clock.</p>
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="particles"></canvas>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          <span>AI Automation Agency</span>
         </div>
-
-        <div class="service-card">
-          <div class="service-icon">⚡</div>
-          <h3 class="service-name">AI Integration</h3>
-          <p class="service-desc">We connect cutting-edge AI models directly into your existing tools — CRMs, ERPs, communication platforms, and more — without disrupting what already works. Your team gets AI superpowers inside the software they use every day.</p>
+        <h1>Your Agency.<br/><span class="accent">On Autopilot.</span></h1>
+        <p class="hero-sub">AutomaBuild builds custom AI workflows that eliminate repetitive tasks, connect your tools, and free your team to focus on what actually grows your business.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary btn-lg">
+            Get a Free Automation Audit
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#services" class="btn btn-outline btn-lg">View Services</a>
         </div>
-
-        <div class="service-card">
-          <div class="service-icon">📊</div>
-          <h3 class="service-name">Data Pipeline Automation</h3>
-          <p class="service-desc">We build reliable ETL pipelines and real-time dashboards that transform raw data into actionable insights — automatically. Say goodbye to manual exports and hello to decision-ready intelligence delivered on demand.</p>
+        <div class="guarantee-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Satisfaction Guaranteed — If it doesn't work as agreed, we fix it free.
         </div>
-
-        <div class="service-card">
-          <div class="service-icon">🤖</div>
-          <h3 class="service-name">Customer Support Automation</h3>
-          <p class="service-desc">We deploy AI-powered chatbots, intelligent ticket routing, and automated response generation that resolve customer issues instantly at any scale. Your support team spends less time on repetitive queries and more time building relationships.</p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">🎯</div>
-          <h3 class="service-name">Lead Generation &amp; Outreach</h3>
-          <p class="service-desc">We automate your entire prospecting pipeline — from lead discovery and qualification to hyper-personalized outreach at scale. Fill your sales funnel with high-quality leads while your competitors are still doing it manually.</p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">🛠️</div>
-          <h3 class="service-name">Custom AI Agents</h3>
-          <p class="service-desc">We design and deploy purpose-built AI agents tailored to the unique workflows and challenges of your business operations. These autonomous agents don't just assist — they act, decide, and deliver results independently.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <hr class="glow-divider" />
-
-  <!-- PROCESS -->
-  <section id="process" class="process-section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">How It Works</h2>
-        <p class="section-subtitle">A proven four-step journey from idea to running automation — on time, every time.</p>
-      </div>
-      <div class="process-steps">
-
-        <div class="process-step">
-          <div class="step-number">01</div>
-          <h3>Discovery</h3>
-          <p>We deep-dive into your workflows, pain points, and goals to identify the highest-impact automation opportunities.</p>
-        </div>
-
-        <div class="process-step">
-          <div class="step-number">02</div>
-          <h3>Strategy</h3>
-          <p>I design a tailored automation roadmap — outlining tools, integrations, and expected ROI before a single line of code is written.</p>
-        </div>
-
-        <div class="process-step">
-          <div class="step-number">03</div>
-          <h3>Build</h3>
-          <p>We engineer and rigorously test your automations using cutting-edge AI models, APIs, and workflow platforms.</p>
-        </div>
-
-        <div class="process-step">
-          <div class="step-number">04</div>
-          <h3>Launch</h3>
-          <p>Go live with confidence. We handle deployment, monitoring, and ongoing optimisation so your automations keep improving over time.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <hr class="glow-divider" />
-
-  <!-- PRICING -->
-  <section id="pricing" class="pricing-section">
-    <div class="container">
-
-      <div class="section-header">
-        <h2 class="section-title">Simple, Transparent Pricing</h2>
-        <p class="section-subtitle">No retainers hidden in fine print. Pick the tier that matches where you are right now.</p>
+        <p class="hero-note">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path fill="white" d="M9 12l2 2 4-4"/></svg>
+          Free audit. No calls. Async-friendly. Response within 24hrs.
+        </p>
       </div>
 
-      <div class="pricing-grid">
-
-        <div class="pricing-card">
-          <span class="pricing-tier">Starter</span>
-          <div class="pricing-price">$180</div>
-          <span class="pricing-period">/project</span>
-          <p class="pricing-tagline">One automation, one problem solved.</p>
-          <ul class="pricing-features">
-            <li>1 workflow automated</li>
-            <li>Zapier / Make integration</li>
-            <li>1 revision included</li>
-            <li>Email support</li>
-            <li>5-day delivery</li>
-          </ul>
-          <a href="#contact" class="btn-secondary">Get Started</a>
+      <!-- ANIMATED WORKFLOW VISUAL -->
+      <div class="hero-visual fade-up fade-up-d1">
+        <div class="flow-card-wrapper">
+        <div class="float-badge fb1">
+          <span class="fb-dot" style="background:#4CAF50"></span>
+          Workflow Active
         </div>
-
-        <div class="pricing-card featured">
-          <span class="pricing-badge">Most Popular</span>
-          <span class="pricing-tier">Growth</span>
-          <div class="pricing-price">$420</div>
-          <span class="pricing-period">/project</span>
-          <p class="pricing-tagline">For founders scaling fast.</p>
-          <ul class="pricing-features">
-            <li>Up to 3 automations</li>
-            <li>AI model integration</li>
-            <li>Custom logic &amp; branching</li>
-            <li>Priority support</li>
-            <li>10-day delivery</li>
-            <li>Free operations audit included</li>
-          </ul>
-          <a href="mailto:ramana199839@gmail.com" class="btn-primary">Start Free Audit</a>
-        </div>
-
-        <div class="pricing-card">
-          <span class="pricing-tier">Scale</span>
-          <div class="pricing-price">$900</div>
-          <span class="pricing-period">/month &nbsp;<span class="pricing-custom-label">Custom</span></span>
-          <p class="pricing-tagline">Full operations overhaul.</p>
-          <ul class="pricing-features">
-            <li>Unlimited automations (monthly retainer)</li>
-            <li>Custom AI agents built for your stack</li>
-            <li>Dashboard &amp; reporting suite</li>
-            <li>Dedicated Slack channel</li>
-            <li>Ongoing optimisation &amp; iteration</li>
-          </ul>
-          <a href="#contact" class="btn-secondary">Get Started</a>
-        </div>
-
-      </div>
-
-      <p class="pricing-note">
-        Need something bigger? We offer custom enterprise packages tailored to your team size and tech stack.
-        <a href="#contact">Talk to us</a> &mdash; all prices are in USD and exclusive of applicable taxes.
-      </p>
-      <p class="pricing-note pricing-note--inr">
-        Indian clients? <a href="#contact">Contact us for INR pricing.</a>
-      </p>
-
-    </div>
-  </section>
-
-  <hr class="glow-divider" />
-
-  <!-- FOUNDING CLIENT PROGRAM -->
-  <section id="founding" class="founding-section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label">Limited Availability</span>
-        <h2 class="section-title">Founding Client Program</h2>
-        <p class="section-subtitle">I'm taking on 3 founding clients at a significantly discounted rate — in exchange for an honest, detailed case study once the work is done.</p>
-      </div>
-
-      <div class="founding-cards">
-
-        <div class="founding-card">
-          <div class="founding-spot-badge">Spot 1</div>
-          <h3 class="founding-card-title">Deeply Discounted Rate</h3>
-          <p class="founding-card-desc">Pay well below standard pricing in exchange for your time and honest feedback. You get real automation built for your business. I get proof that works.</p>
-        </div>
-
-        <div class="founding-card founding-card--center">
-          <div class="founding-spot-badge">Spot 2</div>
-          <h3 class="founding-card-title">Hands-On Collaboration</h3>
-          <p class="founding-card-desc">As a founding client, you get direct access to me throughout the build — more communication, faster iteration, and a solution that fits your exact workflow.</p>
-        </div>
-
-        <div class="founding-card">
-          <div class="founding-spot-badge">Spot 3</div>
-          <h3 class="founding-card-title">A Case Study, Not a Review</h3>
-          <p class="founding-card-desc">After launch, I'll document exactly what we built, what problem it solved, and the measurable results. One page. Yours to approve before it goes live.</p>
-        </div>
-
-      </div>
-
-      <div class="founding-cta">
-        <p class="founding-cta-note">Only 3 spots. No ongoing obligation — just one great project.</p>
-        <a href="mailto:ramana199839@gmail.com" class="btn-primary founding-btn">Apply for a Founding Spot</a>
-      </div>
-    </div>
-  </section>
-
-  <hr class="glow-divider" />
-
-  <!-- FAQ -->
-  <section id="faq" class="faq-section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label">Got Questions?</span>
-        <h2 class="section-title">Frequently Asked Questions</h2>
-        <p class="section-subtitle">Everything you need to know before we start building together.</p>
-      </div>
-
-      <div class="faq-list">
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            <span>What exactly is business automation, and how does it work?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>Business automation connects your existing tools — CRMs, email, spreadsheets, forms, databases — so they talk to each other and act on your behalf without manual input. Think of it as a digital employee that runs 24/7: it watches for triggers (a new lead, a payment, a form submission) and executes a sequence of actions (send an email, update a record, notify your Slack). We design these workflows using platforms like Make, n8n, Zapier, and custom code where needed.</p>
+        <div class="flow-card">
+          <div class="flow-title">Live Automation Example</div>
+          <div class="flow-nodes">
+            <div class="flow-node active">
+              <div class="flow-node-icon" style="background:#EEF1FE">📩</div>
+              <div class="flow-node-text">
+                <div class="flow-node-label">New Lead Received</div>
+                <div class="flow-node-sub">Gmail → Trigger</div>
+              </div>
+              <span class="flow-node-status status-done">Done</span>
+            </div>
+            <div class="flow-arrow"><div class="flow-arrow-line"><div class="flow-arrow-dot"></div></div></div>
+            <div class="flow-node active">
+              <div class="flow-node-icon" style="background:#FEF3C7">🤖</div>
+              <div class="flow-node-text">
+                <div class="flow-node-label">AI Qualifies Lead</div>
+                <div class="flow-node-sub">Claude API → Scoring</div>
+              </div>
+              <span class="flow-node-status status-running">Running</span>
+            </div>
+            <div class="flow-arrow"><div class="flow-arrow-line"><div class="flow-arrow-dot" style="animation-delay:0.5s"></div></div></div>
+            <div class="flow-node">
+              <div class="flow-node-icon" style="background:#F0FDF4">📊</div>
+              <div class="flow-node-text">
+                <div class="flow-node-label">Update CRM + Notify</div>
+                <div class="flow-node-sub">HubSpot + Slack</div>
+              </div>
+              <span class="flow-node-status status-wait">Waiting</span>
+            </div>
+          </div>
+          <div class="flow-stats">
+            <div class="flow-stat"><div class="fs-val">12h</div><div class="fs-label">Saved/week</div></div>
+            <div class="flow-stat"><div class="fs-val">0</div><div class="fs-label">Manual steps</div></div>
+            <div class="flow-stat"><div class="fs-val">100%</div><div class="fs-label">Auto-run</div></div>
           </div>
         </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            <span>How long does it take to build and deploy an automation?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>Most single-workflow automations are scoped, built, tested, and handed over within 5–10 business days. More complex multi-system integrations or AI-powered pipelines typically take 2–4 weeks. We move fast because we start with a focused discovery session to nail down requirements before writing a single line of logic.</p>
-          </div>
+        <div class="float-badge fb2">
+          <span class="fb-dot" style="background:var(--brand)"></span>
+          Saves 12hrs/week
         </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            <span>How is the work priced? Is there a retainer or a flat fee?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>We offer both. For clearly scoped, one-off builds we charge a flat project fee agreed upfront — no surprises. For ongoing support, new automations, or iterative improvements, we offer monthly retainer plans. We'll recommend the model that makes more sense after understanding your situation.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            <span>What tools and tech stack do you use?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>We're tool-agnostic and choose based on your needs. Our primary stack includes <strong>Make (Integromat)</strong>, <strong>n8n</strong>, <strong>Zapier</strong>, <strong>Airtable</strong>, and <strong>custom Python/Node.js scripts</strong> for logic that platforms can't handle. For AI features we leverage the OpenAI and Anthropic APIs. We never lock you into a tool you don't already own.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            <span>Do you provide ongoing support after the automation goes live?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>Yes. Every project includes a 14-day post-launch support window at no extra cost — if anything misfires in the real world, we fix it. Beyond that, retainer clients get priority support, proactive monitoring, and monthly improvement sessions.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            <span>What happens if an automation breaks or an API changes?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>Automations can break when third-party tools update their APIs — it's normal. For retainer clients, we monitor critical workflows and fix issues proactively. For project-only clients, we provide full documentation so you can locate and patch issues quickly. We also build in error-handling alerts so you're always notified if something stops working.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            <span>What size of business is a good fit?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>We specialize in <strong>solo founders, micro-teams (1–10 people), and small businesses</strong>. These are the businesses that benefit most from automation because every hour saved has a direct impact on growth. If you're doing repetitive tasks more than a few times per week, you're a good candidate — send an email and I'll tell you honestly if we're the right fit.</p>
-          </div>
-        </div>
-
+        </div><!-- end flow-card-wrapper -->
       </div>
     </div>
-  </section>
 
-  <hr class="glow-divider" />
-
-  <!-- CONTACT -->
-  <section id="contact" class="contact-section">
-    <div class="container contact-inner">
-      <div class="section-header">
-        <h2 class="section-title">Ready to Automate?</h2>
-        <p class="section-subtitle">Describe what you're doing manually and I'll identify where automation can save you the most time. Start with a free audit — no sales call required.</p>
+    <div class="tools-strip">
+      <p class="tools-label">Tools we work with</p>
+      <div class="tools-list">
+        <div class="tool-pill"><span class="tool-dot" style="background:#FF6D00"></span>n8n</div>
+        <div class="tool-pill"><span class="tool-dot" style="background:#9B59B6"></span>Make</div>
+        <div class="tool-pill"><span class="tool-dot" style="background:#FF4A00"></span>Zapier</div>
+        <div class="tool-pill"><span class="tool-dot" style="background:#0052CC"></span>HubSpot</div>
+        <div class="tool-pill"><span class="tool-dot" style="background:#25D366"></span>WhatsApp</div>
+        <div class="tool-pill"><span class="tool-dot" style="background:#4285F4"></span>Google Workspace</div>
+        <div class="tool-pill"><span class="tool-dot" style="background:#000"></span>Notion</div>
+        <div class="tool-pill"><span class="tool-dot" style="background:#36C5F0"></span>Slack</div>
       </div>
+    </div>
+  </div>
+</section>
 
-      <form class="contact-form" id="contact-form">
+<!-- PROBLEM -->
+<section class="section problems" id="problem">
+  <div class="container">
+    <div class="section-header center">
+      <div class="tag">The Problem</div>
+      <h2 class="section-title">Your team is wasting hours on work that shouldn't exist.</h2>
+      <p class="section-sub">Copy-pasting data. Manual follow-ups. Updating spreadsheets by hand. Every hour spent on repetitive tasks is an hour not spent growing your agency.</p>
+    </div>
+    <div class="problems-grid">
+      <div class="problem-card fade-up">
+        <div class="problem-icon" style="background:#FEF3C7">⏰</div>
+        <h3>Hours Lost Daily</h3>
+        <p>Your team manually moves data between tools, sends follow-up emails, and updates spreadsheets — work that should happen automatically.</p>
+      </div>
+      <div class="problem-card fade-up fade-up-d1">
+        <div class="problem-icon" style="background:#FEE2E2">🔗</div>
+        <h3>Disconnected Tools</h3>
+        <p>Your CRM, email, project management, and communication tools don't talk to each other. That gap costs you time and money every single day.</p>
+      </div>
+      <div class="problem-card fade-up fade-up-d2">
+        <div class="problem-icon" style="background:#DCFCE7">📉</div>
+        <h3>Leads Fall Through</h3>
+        <p>Slow follow-ups, missed reminders, and manual processes mean you're losing clients before they even sign. Automation closes that gap.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <input
-          type="text"
-          name="name"
-          class="form-input"
-          placeholder="Your Name"
-          required
-        />
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-header center">
+      <div class="tag">Services & Pricing</div>
+      <h2 class="section-title">Simple, transparent pricing.</h2>
+      <p class="section-sub">One-time project pricing. No retainers, no hidden fees. Pick the tier that fits your current pain point.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-up">
+        <p class="pricing-tier">Starter</p>
+        <div class="pricing-amount"><span class="dollar">$</span><span class="price">97</span></div>
+        <p class="pricing-desc">One specific automation, built and deployed for you.</p>
+        <div class="pricing-delivery">⚡ 5-day delivery</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>1 custom workflow built</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>2 tool integrations</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>Testing & documentation</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>7-day support after delivery</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>Async communication</li>
+        </ul>
+        <a href="#contact" class="pricing-cta pricing-cta-outline">Get Started →</a>
+      </div>
+      <div class="pricing-card featured fade-up fade-up-d1">
+        <span class="featured-badge">Most Popular</span>
+        <p class="pricing-tier">Growth</p>
+        <div class="pricing-amount"><span class="dollar">$</span><span class="price">247</span></div>
+        <p class="pricing-desc">Multiple connected workflows for your core operations.</p>
+        <div class="pricing-delivery">⚡ 10-day delivery</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>3 custom workflows built</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>Up to 5 tool integrations</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>AI layer on at least 1 workflow</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>Testing & full documentation</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>14-day support after delivery</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>1 revision included</li>
+        </ul>
+        <a href="#contact" class="pricing-cta pricing-cta-filled">Get Started →</a>
+      </div>
+      <div class="pricing-card fade-up fade-up-d2">
+        <p class="pricing-tier">Scale</p>
+        <div class="pricing-amount"><span class="dollar">$</span><span class="price">497</span></div>
+        <p class="pricing-desc">Full automation system for agencies ready to scale operations.</p>
+        <div class="pricing-delivery">⚡ 21-day delivery</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>Full automation system</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>Unlimited tool integrations</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>AI agents & custom logic</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>Testing, docs & training</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>30-day support after delivery</li>
+          <li><span class="check"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M2 6l3 3 5-5"/></svg></span>2 revisions included</li>
+        </ul>
+        <a href="#contact" class="pricing-cta pricing-cta-outline">Get Started →</a>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:24px;font-size:14px;color:var(--text-muted)">
+      Prefer to pay in your local currency? <a href="mailto:hi@automabuild.com" style="color:var(--brand);font-weight:600;text-decoration:none">Contact us</a> and we'll sort it out.
+    </p>
+  </div>
+</section>
 
-        <input
-          type="email"
-          name="email"
-          id="email"
-          class="form-input"
-          placeholder="your@email.com"
-          required
-        />
+<!-- HOW IT WORKS -->
+<section class="section steps" id="how-it-works">
+  <div class="container">
+    <div class="section-header center">
+      <div class="tag">Process</div>
+      <h2 class="section-title">From chaos to automated in 3 steps.</h2>
+      <p class="section-sub">No calls required. Entirely async. You get a working automation — not a proposal.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step fade-up">
+        <div class="step-num">1</div>
+        <h3>Free Audit</h3>
+        <p>Tell us how you work. We identify your biggest automation opportunity — free, no strings attached.</p>
+      </div>
+      <div class="step fade-up fade-up-d1">
+        <div class="step-num">2</div>
+        <h3>We Build</h3>
+        <p>Custom workflows built specifically for your tools and processes. You stay focused on your business.</p>
+      </div>
+      <div class="step fade-up fade-up-d2">
+        <div class="step-num">3</div>
+        <h3>You Grow</h3>
+        <p>Save hours every week. We handle tweaks as you scale. Your operations run themselves.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <input
-          type="text"
-          name="company"
-          class="form-input"
-          placeholder="Company Name"
-        />
-
-        <select name="service" class="form-input">
-          <option value="" disabled selected>Select a Service</option>
-          <option value="workflow-automation">Workflow Automation</option>
-          <option value="ai-integration">AI Integration</option>
-          <option value="data-pipeline">Data Pipeline</option>
-          <option value="customer-support">Customer Support</option>
-          <option value="lead-generation">Lead Generation</option>
-          <option value="custom-ai-agent">Custom AI Agent</option>
-          <option value="founding-spot">Founding Client Spot</option>
-          <option value="not-sure">Not Sure Yet</option>
-        </select>
-
-        <textarea
-          name="message"
-          class="form-input form-textarea"
-          placeholder="Tell us about your automation needs..."
-          rows="5"
-          required
-        ></textarea>
-
-        <div class="form-success" id="form-success" style="display:none;">
-          Thanks! We'll be in touch within 24 hours.
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-visual fade-up">
+        <div class="about-card">
+          <div class="about-avatar">R</div>
+          <div class="about-name">Raman</div>
+          <div class="about-role">Founder, AutomaBuild</div>
+          <p class="about-quote">"I build automations that actually work in the real world — not just in theory."</p>
+          <div class="about-stats">
+            <div class="about-stat"><div class="stat-val">100%</div><div class="stat-label">Async workflow</div></div>
+            <div class="about-stat"><div class="stat-val">$0</div><div class="stat-label">Audit cost</div></div>
+            <div class="about-stat"><div class="stat-val">24hr</div><div class="stat-label">Response time</div></div>
+            <div class="about-stat"><div class="stat-val">7-day</div><div class="stat-label">Fastest delivery</div></div>
+          </div>
         </div>
-
-        <button type="submit" class="btn-primary">Start with a Free Audit via Email</button>
-
-      </form>
+      </div>
+      <div class="about-text fade-up fade-up-d1">
+        <div class="tag">About</div>
+        <h2 class="section-title">Built by someone who understands operational chaos.</h2>
+        <p class="section-sub">I'm Raman, founder of AutomaBuild. My background is in logistics and operations — where I lived the exact pain most businesses ignore: endless messages, manual updates, and repetitive data entry that eats your day.</p>
+        <blockquote><p>That frustration is what AutomaBuild is built on. I automate the exact workflows that used to slow me down.</p></blockquote>
+        <div class="about-values">
+          <div class="about-value"><span class="v-icon">⚡</span>Lean agency — no bloated teams, no unnecessary complexity</div>
+          <div class="about-value"><span class="v-icon">🌍</span>Working with businesses worldwide</div>
+          <div class="about-value"><span class="v-icon">✉️</span>100% async — no mandatory calls, ever</div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-logo">AutomaGen</div>
-    <div class="footer-links">
-      <a href="#services">Services</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#process">Process</a>
-      <a href="#founding">Founding Program</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact">Contact</a>
-      <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://www.twitter.com/" target="_blank" rel="noopener noreferrer">Twitter</a>
+<!-- FAQ -->
+<section class="section faq" id="faq">
+  <div class="container">
+    <div class="section-header center">
+      <div class="tag">FAQ</div>
+      <h2 class="section-title">Common questions, straight answers.</h2>
     </div>
-    <p class="footer-copy">&copy; 2026 AutomaGen. All rights reserved.</p>
-  </footer>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>Do I need to be on a call?</span>
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+        </button>
+        <div class="faq-a"><p>No. The entire process is async — email only. No Zoom calls, no scheduling, no back-and-forth across time zones. You fill out the audit form, we reply with our analysis, and we build from there.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>What tools do you work with?</span>
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+        </button>
+        <div class="faq-a"><p>We work with n8n, Make, Zapier, Google Workspace, Notion, Slack, HubSpot, WhatsApp, Airtable, and most major business tools. If your tool has an API or a Zapier integration, we can automate it.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>How long does delivery take?</span>
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+        </button>
+        <div class="faq-a"><p>Starter: 5 business days. Growth: 10 business days. Scale: 21 business days. The clock starts after you've confirmed the workflow scope and we've received all necessary access.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>What if I'm not happy with the result?</span>
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+        </button>
+        <div class="faq-a"><p>If the automation doesn't work as agreed, we fix it free. Growth includes 1 revision, Scale includes 2. We're not done until it works exactly as scoped.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>Do you work with businesses outside the US?</span>
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+        </button>
+        <div class="faq-a"><p>Yes — we work with businesses worldwide. Canada, Europe, UK, Japan, Philippines, Australia, or anywhere else. All communication is in English, fully async, so time zones never matter.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>What if I don't know what to automate?</span>
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+        </button>
+        <div class="faq-a"><p>That's exactly what the free audit is for. Tell us your tools and your biggest time-consuming tasks — we'll map out what can be automated and what the impact would be. No commitment required.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- WHATSAPP FIXED BUTTON -->
-  <a href="https://wa.me/919803914492" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" aria-label="Chat on WhatsApp">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-  </a>
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info fade-up">
+        <h2>Get your<br/><span>free automation</span><br/>audit.</h2>
+        <p>Tell us what you're working on. We'll identify your biggest automation opportunity — free, no strings attached.</p>
+        <div class="contact-promises">
+          <div class="promise">
+            <div class="promise-icon">🎯</div>
+            <div class="promise-text"><strong>Personalized analysis</strong><span>We review your actual workflow, not a generic template</span></div>
+          </div>
+          <div class="promise">
+            <div class="promise-icon">⚡</div>
+            <div class="promise-text"><strong>Response within 24 hours</strong><span>Weekdays. No auto-replies.</span></div>
+          </div>
+          <div class="promise">
+            <div class="promise-icon">🔒</div>
+            <div class="promise-text"><strong>Zero obligation</strong><span>Audit is completely free. No calls required.</span></div>
+          </div>
+        </div>
+        <div class="contact-email-alt">
+          Prefer email directly? Write to <a href="mailto:hi@automabuild.com">hi@automabuild.com</a>
+        </div>
+      </div>
+      <div class="contact-form-wrap fade-up fade-up-d1">
+        <div class="form-title">Request Your Free Audit</div>
+        <div class="form-sub">We'll get back to you within 24 hours.</div>
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact" />
+          <input type="hidden" name="bot-field" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name <span>*</span></label>
+              <input type="text" id="name" name="name" placeholder="John Smith" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address <span>*</span></label>
+              <input type="email" id="email" name="email" placeholder="john@agency.com" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tools">What tools does your business use? <span>*</span></label>
+            <input type="text" id="tools" name="tools" placeholder="e.g. HubSpot, Slack, Google Sheets, Notion..." required />
+          </div>
+          <div class="form-group">
+            <label for="task">What task takes most of your team's time? <span>*</span></label>
+            <textarea id="task" name="task" placeholder="Describe the repetitive work you'd like to automate..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="budget">Which tier are you considering?</label>
+            <select id="budget" name="budget">
+              <option value="">Select a tier...</option>
+              <option value="starter">Starter — $97</option>
+              <option value="growth">Growth — $247</option>
+              <option value="scale">Scale — $497</option>
+              <option value="unsure">Not sure yet</option>
+            </select>
+          </div>
+          <button type="submit" class="form-submit">
+            Send My Audit Request
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p class="form-note">✅ Free. No calls. Async-friendly. Satisfaction guaranteed.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <script src="snippet_animations.js"></script>
-  <script>
-    window.addEventListener('scroll', function() {
-      document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 20);
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#" class="footer-logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        AutomaBuild
+      </a>
+      <div class="footer-links">
+        <a href="#services">Services</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#about">About</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a href="mailto:hi@automabuild.com" class="footer-email">hi@automabuild.com</a>
+      <p class="footer-copy">© 2026 AutomaBuild. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 20));
+
+// Mobile menu
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+// Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Smooth scroll with nav offset
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); window.scrollTo({ top: t.offsetTop - 80, behavior: 'smooth' }); }
+  });
+});
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
+// Workflow node cycling animation
+const nodes = document.querySelectorAll('.flow-node');
+let current = 0;
+if(nodes.length) {
+  setInterval(() => {
+    nodes.forEach(n => { n.classList.remove('active'); n.querySelector('.flow-node-status').className = 'flow-node-status status-wait'; n.querySelector('.flow-node-status').textContent = 'Waiting'; });
+    nodes[current].classList.add('active');
+    const s = nodes[current].querySelector('.flow-node-status');
+    if(current === 0){ s.className='flow-node-status status-done'; s.textContent='Done'; }
+    else if(current === 1){ s.className='flow-node-status status-running'; s.textContent='Running'; }
+    else { s.className='flow-node-status status-done'; s.textContent='Done'; }
+    current = (current + 1) % nodes.length;
+  }, 2000);
+}
+
+// Canvas particles
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+
+function createParticles() {
+  particles = [];
+  const count = Math.floor((W * H) / 14000);
+  for(let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 2 + 0.5,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      alpha: Math.random() * 0.4 + 0.1
     });
+  }
+}
 
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      document.getElementById('form-success').style.display = 'block';
-      this.reset();
+function drawParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if(p.x < 0) p.x = W; if(p.x > W) p.x = 0;
+    if(p.y < 0) p.y = H; if(p.y > H) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(79,110,247,${p.alpha})`;
+    ctx.fill();
+  });
+  // Draw connecting lines
+  particles.forEach((p, i) => {
+    particles.slice(i+1).forEach(q => {
+      const d = Math.hypot(p.x - q.x, p.y - q.y);
+      if(d < 100) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(q.x, q.y);
+        ctx.strokeStyle = `rgba(79,110,247,${0.08 * (1 - d/100)})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
     });
+  });
+  requestAnimationFrame(drawParticles);
+}
 
-    (function() {
-      var questions = document.querySelectorAll('.faq-question');
-      questions.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          var item = btn.closest('.faq-item');
-          var isOpen = item.classList.contains('open');
-          document.querySelectorAll('.faq-item.open').forEach(function(openItem) {
-            openItem.classList.remove('open');
-            openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-            openItem.querySelector('.faq-answer').style.maxHeight = '0';
-            openItem.querySelector('.faq-answer').style.paddingBottom = '0';
-          });
-          if (!isOpen) {
-            item.classList.add('open');
-            btn.setAttribute('aria-expanded', 'true');
-            var answer = item.querySelector('.faq-answer');
-            answer.style.maxHeight = '500px';
-            answer.style.paddingBottom = '16px';
-          }
-        });
-      });
-    })();
-  </script>
-
+const heroSection = document.querySelector('.hero');
+const resizeObserver = new ResizeObserver(() => { resize(); createParticles(); });
+resizeObserver.observe(heroSection);
+resize(); createParticles(); drawParticles();
+</script>
 </body>
 </html>
